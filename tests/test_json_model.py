@@ -1160,6 +1160,16 @@ async def test_literals():
 
 
 @py_test_mark_asyncio
+async def test_two_false_pks():
+    from pydantic_core import PydanticUndefined as Undefined
+
+    class SomeModel(JsonModel):
+        field1: str = Field(index=True, primary_key=Undefined)
+        field2: str = Field(index=True, primary_key=Undefined)
+
+    SomeModel(field1="foo", field2="bar")
+
+@py_test_mark_asyncio
 async def test_merged_model_error():
     class Player(EmbeddedJsonModel):
         username: str = Field(index=True)
